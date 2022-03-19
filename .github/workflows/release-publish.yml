@@ -105,3 +105,11 @@ jobs:
       with:
         push: true
         tags: fossology/fossology:${{ steps.get_release.outputs.tag_name }}
+
+    - name: Build and push ldap image
+      uses: docker/build-push-action@v2
+      with:
+        build-args:
+        - "type=ldap"
+        push: true
+        tags: fossology/fossology:${{ steps.get_release.outputs.tag_name }}-ldap

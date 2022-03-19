@@ -58,6 +58,16 @@ The Docker image allows the configuration of its database connection over a set 
 - **FOSSOLOGY_DB_USER:** User to be used for PostgreSQL connection. Defaults to `fossy`.
 - **FOSSOLOGY_DB_PASSWORD:** Password to be used for PostgreSQL connection. Defaults to `fossy`.
 
+### LDAP support in Docker
+
+We also provide a pre-build Docker image with LDAP support enabled, which can be identified by the `ldap` suffix in the image tag and takes the following **additional** environment variables.
+
+- **FOSSOLOGY_URL:** The URL of this FOSSology instance, e.g: `http://fossology.example.ltd`.
+  Use `https://...` if your FOSSology instance resides behind a https reverse proxy.
+- **LDAP_CONFIG:** Multiline configuration of LDAP settings, e.g: `AuthLDAPBindDN apache@example.com\nAuthLDAPBindPassword password\n...`
+
+LDAP support is provided by the apache2 authnz_ldap mod. See https://httpd.apache.org/docs/2.4/mod/mod_authnz_ldap.html for an exhaustive documentation of the various LDAP configuration options.
+
 ## Vagrant
 
 FOSSology comes with a VagrantFile that can be used to create an isolated environment for FOSSology and its dependencies.

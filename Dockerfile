@@ -9,6 +9,9 @@
 #
 # Description: Docker container image recipe
 
+# type can be set to "ldap" to build image configured for LDAP authentication
+ARG type=base
+
 FROM debian:buster-slim as builder
 LABEL maintainer="Fossology <fossology@fossology.org>"
 
@@ -47,7 +50,7 @@ RUN make clean install \
  && make clean
 
 
-FROM debian:buster-slim
+FROM debian:buster-slim as base
 
 LABEL maintainer="Fossology <fossology@fossology.org>"
 
@@ -96,3 +99,12 @@ COPY --from=builder /usr/local/ /usr/local/
 
 # the database is filled in the entrypoint
 RUN /usr/local/lib/fossology/fo-postinstall --agent --common --scheduler-only --web-only --no-running-database
+
+
+FROM base as ldap
+RUN a2enmod authnz_ldap
+COPY ldap.conf /etc/apache2/sites-enabled/fossology.conf
+
+
+# use either base or ldap layer for final image
+FROM ${type} as final
