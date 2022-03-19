@@ -84,7 +84,8 @@ RUN /fossology/install/scripts/php-conf-fix.sh --overwrite
 # configure apache
 RUN mkdir -p /var/log/apache2/ \
  && ln -sf /proc/self/fd/1 /var/log/apache2/access.log \
- && ln -sf /proc/self/fd/1 /var/log/apache2/error.log
+ && ln -sf /proc/self/fd/1 /var/log/apache2/error.log \
+ && a2enmod authnz_ldap
 
 COPY ./docker-entrypoint.sh /fossology/docker-entrypoint.sh
 RUN chmod +x /fossology/docker-entrypoint.sh
